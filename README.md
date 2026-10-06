@@ -8,7 +8,7 @@ A skills-based course for learners who can already read basic JavaScript. It cov
 
 Run `python3 -m http.server 8000` in this folder and open http://localhost:8000. The deployed course needs no install, build step, backend, AI service, or external fonts. Lessons and quizzes work from the bundled files; source links need connectivity. The embedded JSON also permits opening `index.html` directly, subject to browser storage/download policies.
 
-Each lesson has a goal, explanation, example, practice task, worked solution and takeaway. Read all five slides before marking a lesson complete. Pass the section quiz with 80% to unlock the next section and its Markdown study-guide download. The guide includes takeaways, examples, exercises, solutions, learner notes and source links. Retakes are allowed. The final quiz unlocks after all 60 lesson/quiz items are complete.
+Each lesson has a goal, explanation, example, practice task, worked solution and takeaway. Read all five slides before marking a lesson complete. Lessons and quizzes are freely accessible by default, matching Design Lab. Turn off “Unlock all lessons and quizzes” in learner settings for sequential progression. Pass the section quiz with 80% and complete its lessons to unlock the Markdown study-guide download. The guide includes takeaways, examples, exercises, solutions, learner notes and source links. Retakes are allowed. With sequential progression enabled, the final quiz unlocks after all 60 lesson/quiz items are complete.
 
 ## Editing and validation
 
@@ -38,3 +38,11 @@ This is a complete core skills path, not an exhaustive reproduction of MDN, ever
 Reports and learner settings are browser-local. No authentication, server, cloud dashboard, SCORM/xAPI integration or verified grading is included. Correct answers are in the client. Clearing browser data clears progress. Quiz attempts are not exam-secure.
 
 Coding exercises are self-assessed; use the capstone rubric and tests to verify practical work. Completion is not certification. Source attribution is retained in downloadable guides; see `docs/ATTRIBUTION.md`.
+
+## Design Lab visual and report update
+
+The shared learner UI follows Design Lab commit `274cb3a`: compact flat outline rows, lighter navigation icons, completion checks, persistent section collapse, optional lesson metadata, and dedicated learner settings. The TypeScript code formatting, sources, notes and completion-gated study-guide exports remain intact.
+
+Reports fill the learner column, with a compact interactive pie beside skill grade bars on desktop and stacked charts on mobile. Each section quiz maps to its section skill; the final quiz maps to integrated TypeScript judgment. Average quiz grade uses the best score of each submitted quiz, including failed scores. Skill grades average submitted quizzes in their group. Unattempted quizzes do not affect averages; skills at the course passing score count as learned. These are quiz-based indicators, not verification of practical coding mastery.
+
+Unattempted skill bars are hidden until selected. Reports initially show actual learner results, including an honest empty state. The optional, clearly labeled sample report and its CSV never modify progress. Report tables and CSVs list quizzes, skills, attempts and best scores, without time columns. Presentation-only skill label changes preserve existing quiz completion and scores.

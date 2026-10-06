@@ -23,6 +23,11 @@ const base = process.env.LMS_TEST_URL || 'http://127.0.0.1:8000';
   const complete = page.locator('[data-lms="complete"]');
   const guide = page.locator('[data-lms="guide"]');
   await page.goto(base);
+  assert.equal(await item(course.sections[1].children[0].id).isEnabled(), true);
+  await page.locator('[data-lms="view"][data-view="settings"]').click();
+  await page.locator('#lms-unlock-all').uncheck();
+  await page.locator('#lms-show-details').check();
+  await page.locator('[data-lms="view"][data-view="learn"]').first().click();
   assert.equal(await complete.isDisabled(), true);
   assert.equal(await guide.isDisabled(), true);
   assert.equal(await item(course.sections[0].children[1].id).isDisabled(), true);
@@ -85,7 +90,66 @@ const base = process.env.LMS_TEST_URL || 'http://127.0.0.1:8000';
   await page.reload();
   assert.equal(await page.locator('#lms-progress').getAttribute('value'), '100');
   await page.locator('[data-lms="view"][data-view="report"]').click();
-  assert.ok((await page.locator('.lms-metrics').innerText()).includes('60/60'));
+  assert.ok((await page.locator('.lms-metrics').innerText()).includes('21/21'));
+
+  assert.equal(await page.locator('#lms-average-grade').innerText(), '100%');
+  assert.equal(await page.locator('tbody tr').count(), 21);
+  assert.equal(await page.locator('.lms-skill-row').count(), 21);
+  assert.equal((await page.locator('thead').innerText()).trim(), 'Quiz name\tStatus\tAttempts\tBest score');
+  const closedSection = page.locator('details[data-lms-section]').first();
+  await closedSection.evaluate(el => el.open = false);
+  await page.reload();
+  assert.equal(await closedSection.getAttribute('open'), null);
+  for (const width of [1440, 768, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `Report overflow at ${width}`);
+  }
+  await page.screenshot({ path: 'test-results/report-mobile.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.screenshot({ path: 'test-results/report-desktop.png', fullPage: true });
+  await page.locator('[data-lms="report-sample"]').click();
+  assert.ok((await page.locator('.lms-report-heading').innerText()).includes('SAMPLE REPORT'));
+  assert.equal(await page.locator('#lms-average-grade').innerText(), '83.3%');
+  assert.equal(await page.locator('.lms-skill-row').count(), 3);
+  await page.locator('#lms-show-unattempted').check();
+  assert.equal(await page.locator('.lms-skill-row').count(), 4);
+  await page.locator('[data-lms-slice]').first().focus();
+  assert.ok((await page.locator('#lms-pie-detail').innerText()).includes('Learned: 2 of 4 skills'));
+  const csvPromise = page.waitForEvent('download');
+  await page.locator('[data-lms="csv"]').click();
+  const csv = await csvPromise;
+  await csv.saveAs('test-results/sample-learning-report.csv');
+  const csvText = fs.readFileSync('test-results/sample-learning-report.csv', 'utf8');
+  assert.ok(csvText.includes('"Quiz name","Skill"'));
+  assert.ok(csvText.includes('"Sample","Sample learner"'));
+
+  // Isolated saved learner grades verify actual averages and no automatic sample data.
+  const reportContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const reportPage = await reportContext.newPage();
+  await reportPage.addInitScript(() => document.addEventListener('DOMContentLoaded', () => {
+    const raw = JSON.parse(document.querySelector('#lms-course-data').textContent);
+    raw.id += '-grade-check';
+    document.querySelector('#lms-course-data').textContent = JSON.stringify(raw);
+    if (localStorage.getItem('design-lab-lms-progress-' + raw.id)) return;
+    const quizzes = LMS.flatten(LMS.validate(raw).sections).filter(n => n.type === 'quiz');
+    const records = {};
+    quizzes.slice(0, 2).forEach((quiz, i) => {
+      let hash = 0;
+      const data = Object.fromEntries(Object.entries(quiz).filter(([key]) => key !== 'skill'));
+      for (const ch of JSON.stringify(data)) hash = (Math.imul(31, hash) + ch.charCodeAt(0)) | 0;
+      records[quiz.id] = { fingerprint: String(hash), completed: true, attempts: [{ score: i ? 80 : 100, at: '2026-10-06T00:00:00Z', passed: true }] };
+    });
+    localStorage.setItem('design-lab-lms-progress-' + raw.id, JSON.stringify({ name: 'Grade check', records }));
+  }));
+  await reportPage.goto(base + '#report');
+  assert.equal(await reportPage.locator('#lms-average-grade').innerText(), '90%');
+  assert.equal(await reportPage.locator('.lms-skill-row').count(), 2);
+  assert.ok((await reportPage.locator('.lms-report-heading').innerText()).includes('YOUR RESULTS'));
+  await reportPage.locator('#lms-show-unattempted').check();
+  assert.equal(await reportPage.locator('.lms-skill-row').count(), 21);
+  await reportPage.reload();
+  assert.equal(await reportPage.locator('#lms-show-unattempted').isChecked(), true);
+  // Keep the isolated report context open until browser shutdown (single-process Chromium).
 
   // Changed content invalidates stored completion and relocks dependent lessons.
   // Change the incoming course, rather than editing storage while the old runtime is saving.
@@ -115,5 +179,5 @@ const base = process.env.LMS_TEST_URL || 'http://127.0.0.1:8000';
   await page.screenshot({ path: 'test-results/desktop.png', fullPage: true });
   assert.deepEqual(errors, []);
   await browser.close();
-  console.log('Browser checks passed: all 60 lessons, quiz failure/retake, final assessment, exports, persistence, stale progress, mobile outline, and 390/768/1440px overflow.');
+  console.log('Browser checks passed: all 60 lessons, quiz failure/retake, final assessment, exports, persistence, stale progress, mobile outline, report averages/charts/CSV, learner preferences, outline persistence, and 390/768/1440px overflow.');
 })().catch(error => { console.error(error); process.exit(1); });

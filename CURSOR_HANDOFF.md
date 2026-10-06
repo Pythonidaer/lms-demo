@@ -9,3 +9,8 @@ Run npm ci && npm test for content/type/runtime checks. UI traversal is npm run 
 Test Learn, Reports, Settings, mobile outline, keyboard navigation, completion gates, retakes, captions/transcripts and browser persistence at 390/768/1440px. No video autoplays. Plain lesson text is escaped. Uploaded assets are local; external URLs stay external.
 
 For shared reporting add users/enrollments, courses, lesson completions and quiz-attempt tables with an authenticated API. Grade on the server for trustworthy scores; never trust client completion/CSV. Add roles, access controls and a real instructor report before production multi-user use. Evaluate SCORM/xAPI only if needed by the target platform.
+
+
+## Latest Design Lab alignment
+
+Ported learner styles/settings/reports from Design Lab `274cb3a` onto the TypeScript course. Access defaults to unlocked; learner settings can restore sequential gates. Study guides still require actual section completion. Collapse state and outline metadata preference persist. Reports are full-width with skill pie, grouped grade bars, best-score average, quiz-only table and CSV; sample data is an explicit labeled preview. Section quizzes have skill labels, excluded from completion fingerprints to preserve previously stored quiz grades. No backend, merge or deployment is included in this branch update.

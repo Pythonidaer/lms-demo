@@ -33,7 +33,7 @@ def L(m, slug, title, goal, explanation, code, practice, solution, takeaway, lan
 
 def Q(m, prompt, correct, wrong1, wrong2, explanation):
     if not m['children'] or m['children'][-1]['type'] != 'quiz':
-        m['children'].append({'id': m['id']+'-quiz', 'type': 'quiz', 'title': 'Skill check · ' + m['title'].split(' · ',1)[1], 'questions': [], 'sources': m['sources']})
+        m['children'].append({'id': m['id']+'-quiz', 'type': 'quiz', 'title': 'Skill check · ' + m['title'].split(' · ',1)[1], 'skill': m['title'].split(' · ',1)[1], 'questions': [], 'sources': m['sources']})
     quiz = m['children'][-1]
     index = len(quiz['questions'])
     options = [correct, wrong1, wrong2]
@@ -431,8 +431,8 @@ previous=json.loads((ROOT/'course.json').read_text())
 course={'schemaVersion':1,'id':'ts-skills-complete-v1','title':'TypeScript skills',
     'description':'A skills-based path through TypeScript foundations, advanced types, runtime boundaries, tooling and library integration. MDN provides JavaScript foundations; the official TypeScript documentation supplies TypeScript-specific material. Original examples and self-assessed exercises accompany each lesson.',
     'sections':modules,
-    'finalQuiz':{'id':'ts-final-skills','type':'quiz','title':'Final assessment · Apply your TypeScript judgment','questions':[]},
-    'settings':{**previous['settings'],'passScore':80,'allowRetakes':True,'sequential':True,'requireLessons':True}}
+    'finalQuiz':{'id':'ts-final-skills','type':'quiz','title':'Final assessment · Apply your TypeScript judgment','skill':'Integrated TypeScript judgment','questions':[]},
+    'settings':{**previous['settings'],'passScore':80,'allowRetakes':True,'sequential':True,'requireLessons':True,'unlockAll':True,'showLessonDetails':False}}
 # Final assessment uses fresh applied scenarios from across the course.
 final_items = [
     ("An API sends minutes as text. What makes it a validated number?", "Convert and check the runtime value", "Use as number", "Add a number return annotation", "Annotations are erased; conversion and validation are runtime work."),

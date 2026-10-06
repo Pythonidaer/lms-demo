@@ -113,6 +113,7 @@
           "id": "ts-sec-orientation-quiz",
           "type": "quiz",
           "title": "Skill check · Start and understand the runtime",
+          "skill": "Start and understand the runtime",
           "questions": [
             {
               "id": "ts-sec-orientation-quiz-q1",
@@ -304,6 +305,7 @@
           "id": "ts-sec-javascript-quiz",
           "type": "quiz",
           "title": "Skill check · JavaScript foundations for TypeScript",
+          "skill": "JavaScript foundations for TypeScript",
           "questions": [
             {
               "id": "ts-sec-javascript-quiz-q1",
@@ -487,6 +489,7 @@
           "id": "ts-sec-everyday-quiz",
           "type": "quiz",
           "title": "Skill check · Everyday types and inference",
+          "skill": "Everyday types and inference",
           "questions": [
             {
               "id": "ts-sec-everyday-quiz-q1",
@@ -670,6 +673,7 @@
           "id": "ts-sec-objects-quiz",
           "type": "quiz",
           "title": "Skill check · Model objects and collections",
+          "skill": "Model objects and collections",
           "questions": [
             {
               "id": "ts-sec-objects-quiz-q1",
@@ -853,6 +857,7 @@
           "id": "ts-sec-narrowing-quiz",
           "type": "quiz",
           "title": "Skill check · Narrow uncertain values safely",
+          "skill": "Narrow uncertain values safely",
           "questions": [
             {
               "id": "ts-sec-narrowing-quiz-q1",
@@ -1020,6 +1025,7 @@
           "id": "ts-sec-states-quiz",
           "type": "quiz",
           "title": "Skill check · Represent states and handle every case",
+          "skill": "Represent states and handle every case",
           "questions": [
             {
               "id": "ts-sec-states-quiz-q1",
@@ -1187,6 +1193,7 @@
           "id": "ts-sec-functions-quiz",
           "type": "quiz",
           "title": "Skill check · Design function contracts",
+          "skill": "Design function contracts",
           "questions": [
             {
               "id": "ts-sec-functions-quiz-q1",
@@ -1354,6 +1361,7 @@
           "id": "ts-sec-generics-quiz",
           "type": "quiz",
           "title": "Skill check · Build reusable generic APIs",
+          "skill": "Build reusable generic APIs",
           "questions": [
             {
               "id": "ts-sec-generics-quiz-q1",
@@ -1529,6 +1537,7 @@
           "id": "ts-sec-operators-quiz",
           "type": "quiz",
           "title": "Skill check · Derive types from existing information",
+          "skill": "Derive types from existing information",
           "questions": [
             {
               "id": "ts-sec-operators-quiz-q1",
@@ -1712,6 +1721,7 @@
           "id": "ts-sec-transformations-quiz",
           "type": "quiz",
           "title": "Skill check · Transform types with intent",
+          "skill": "Transform types with intent",
           "questions": [
             {
               "id": "ts-sec-transformations-quiz-q1",
@@ -1879,6 +1889,7 @@
           "id": "ts-sec-utilities-quiz",
           "type": "quiz",
           "title": "Skill check · Use the standard utility types",
+          "skill": "Use the standard utility types",
           "questions": [
             {
               "id": "ts-sec-utilities-quiz-q1",
@@ -2054,6 +2065,7 @@
           "id": "ts-sec-classes-quiz",
           "type": "quiz",
           "title": "Skill check · Classes, compatibility, and composition",
+          "skill": "Classes, compatibility, and composition",
           "questions": [
             {
               "id": "ts-sec-classes-quiz-q1",
@@ -2261,6 +2273,7 @@
           "id": "ts-sec-modules-quiz",
           "type": "quiz",
           "title": "Skill check · Modules and runtime-aware resolution",
+          "skill": "Modules and runtime-aware resolution",
           "questions": [
             {
               "id": "ts-sec-modules-quiz-q1",
@@ -2476,6 +2489,7 @@
           "id": "ts-sec-configuration-quiz",
           "type": "quiz",
           "title": "Skill check · Compiler options and scalable projects",
+          "skill": "Compiler options and scalable projects",
           "questions": [
             {
               "id": "ts-sec-configuration-quiz-q1",
@@ -2699,6 +2713,7 @@
           "id": "ts-sec-declarations-quiz",
           "type": "quiz",
           "title": "Skill check · Consume and publish declaration files",
+          "skill": "Consume and publish declaration files",
           "questions": [
             {
               "id": "ts-sec-declarations-quiz-q1",
@@ -2922,6 +2937,7 @@
           "id": "ts-sec-migration-quiz",
           "type": "quiz",
           "title": "Skill check · Adopt TypeScript in JavaScript projects",
+          "skill": "Adopt TypeScript in JavaScript projects",
           "questions": [
             {
               "id": "ts-sec-migration-quiz-q1",
@@ -3129,6 +3145,7 @@
           "id": "ts-sec-async-dom-quiz",
           "type": "quiz",
           "title": "Skill check · Async data and browser applications",
+          "skill": "Async data and browser applications",
           "questions": [
             {
               "id": "ts-sec-async-dom-quiz-q1",
@@ -3360,6 +3377,7 @@
           "id": "ts-sec-specialized-quiz",
           "type": "quiz",
           "title": "Skill check · Specialized language and integration features",
+          "skill": "Specialized language and integration features",
           "questions": [
             {
               "id": "ts-sec-specialized-quiz-q1",
@@ -3607,6 +3625,7 @@
           "id": "ts-sec-advanced-runtime-quiz",
           "type": "quiz",
           "title": "Skill check · Decorators, disposal, and advanced runtime topics",
+          "skill": "Decorators, disposal, and advanced runtime topics",
           "questions": [
             {
               "id": "ts-sec-advanced-runtime-quiz-q1",
@@ -3822,6 +3841,7 @@
           "id": "ts-sec-capstone-quiz",
           "type": "quiz",
           "title": "Skill check · Build and verify a typed learning catalog",
+          "skill": "Build and verify a typed learning catalog",
           "questions": [
             {
               "id": "ts-sec-capstone-quiz-q1",
@@ -3909,6 +3929,7 @@
     "id": "ts-final-skills",
     "type": "quiz",
     "title": "Final assessment · Apply your TypeScript judgment",
+    "skill": "Integrated TypeScript judgment",
     "questions": [
       {
         "id": "ts-final-scenario-1",
@@ -4149,6 +4170,8 @@
     "radius": 8,
     "font": "humanist",
     "headingFont": "system",
-    "lineHeight": 1.7
+    "lineHeight": 1.7,
+    "unlockAll": true,
+    "showLessonDetails": false
   }
 }
