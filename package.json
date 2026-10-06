@@ -1,0 +1,14 @@
+{
+  "name": "lms-typescript-skills",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static TypeScript skills LMS with optional development checks",
+  "scripts": {
+    "build:course": "python3 scripts/build-course.py",
+    "test": "node --test tests/course.test.cjs tests/catalog.test.cjs",
+    "test:browser": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

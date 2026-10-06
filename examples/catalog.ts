@@ -1,0 +1,53 @@
+/** Reference solution. Adapted learning exercise, not a backend service. */
+export type Lesson = Readonly<{ id: string; title: string; minutes: number }>;
+export type Result<T> = { ok: true; value: T } | { ok: false; error: string };
+
+export function isLesson(value: unknown): value is Lesson {
+  return typeof value === 'object' && value !== null
+    && 'id' in value && typeof value.id === 'string' && value.id.trim() !== ''
+    && 'title' in value && typeof value.title === 'string' && value.title.trim() !== ''
+    && 'minutes' in value && typeof value.minutes === 'number'
+    && Number.isFinite(value.minutes) && value.minutes >= 0;
+}
+
+export function parseCatalog(value: unknown): Result<readonly Lesson[]> {
+  if (!Array.isArray(value)) return { ok: false, error: 'Expected an array' };
+  const lessons: Lesson[] = [];
+  const ids = new Set<string>();
+  for (const item of value) {
+    if (!isLesson(item)) return { ok: false, error: 'Invalid lesson' };
+    if (ids.has(item.id)) return { ok: false, error: `Duplicate ID: ${item.id}` };
+    ids.add(item.id);
+    // Construct the output explicitly; do not leak extra input fields or object aliases.
+    lessons.push({ id: item.id, title: item.title, minutes: item.minutes });
+  }
+  return { ok: true, value: lessons };
+}
+
+export function getProperty<T, K extends keyof T>(value: T, key: K): T[K] {
+  return value[key];
+}
+
+export function totalMinutes(lessons: readonly Lesson[]): number {
+  return lessons.reduce((sum, lesson) => sum + lesson.minutes, 0);
+}
+
+export function findLesson(lessons: readonly Lesson[], id: string): Lesson | undefined {
+  return lessons.find(lesson => lesson.id === id);
+}
+
+export function rename(lessons: readonly Lesson[], id: string, title: string): Lesson[] {
+  if (!title.trim()) throw new Error('Title is required');
+  return lessons.map(lesson => lesson.id === id ? { ...lesson, title } : lesson);
+}
+
+export function describe(result: Result<readonly Lesson[]>): string {
+  switch (result.ok) {
+    case true: return `${result.value.length} lessons, ${totalMinutes(result.value)} minutes`;
+    case false: return result.error;
+    default: {
+      const exhaustive: never = result;
+      return exhaustive;
+    }
+  }
+}

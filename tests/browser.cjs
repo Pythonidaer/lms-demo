@@ -1,0 +1,184 @@
+/* Run against a local static server; optional Playwright dependency. */
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+let playwright;
+try { playwright = require('playwright'); }
+catch { playwright = require(path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES || '', 'playwright')); }
+const course = JSON.parse(fs.readFileSync('course.json', 'utf8'));
+const base = process.env.LMS_TEST_URL || 'http://127.0.0.1:8000';
+
+(async () => {
+  let launch = { headless: true };
+  if (process.env.LMS_CHROMIUM_PACKAGE) {
+    const { default: chromium } = await import(path.resolve(process.env.LMS_CHROMIUM_PACKAGE, 'build/index.js'));
+    launch = { ...launch, executablePath: process.env.LMS_CHROMIUM_EXECUTABLE || await chromium.executablePath(), args: chromium.args };
+  }
+  const browser = await playwright.chromium.launch(launch);
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true });
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  const item = id => page.locator(`[data-lms="open"][data-id="${id}"]`);
+  const next = page.locator('[data-lms="slide-next"]');
+  const complete = page.locator('[data-lms="complete"]');
+  const guide = page.locator('[data-lms="guide"]');
+  await page.goto(base);
+  assert.equal(await item(course.sections[1].children[0].id).isEnabled(), true);
+  await page.locator('[data-lms="view"][data-view="settings"]').click();
+  await page.locator('#lms-unlock-all').uncheck();
+  await page.locator('#lms-show-details').check();
+  await page.locator('[data-lms="view"][data-view="learn"]').first().click();
+  assert.equal(await complete.isDisabled(), true);
+  assert.equal(await guide.isDisabled(), true);
+  assert.equal(await item(course.sections[0].children[1].id).isDisabled(), true);
+  await page.locator('[data-lms-notes]').fill('Remember: types are erased.');
+  for (let i = 0; i < 4; i++) await next.click();
+  assert.equal(await complete.isEnabled(), true);
+  await complete.click();
+  await page.reload();
+  assert.equal(await page.locator('[data-lms-notes]').inputValue(), 'Remember: types are erased.');
+  assert.equal(await item(course.sections[0].children[1].id).isEnabled(), true);
+
+  for (let sectionIndex = 0; sectionIndex < course.sections.length; sectionIndex++) {
+    const section = course.sections[sectionIndex];
+    const details = page.locator('details').filter({ has: page.locator(`[data-id="${section.children[0].id}"]`) }).first();
+    if (!(await details.getAttribute('open') !== null)) await details.locator('summary').first().click();
+    for (let lessonIndex = 0; lessonIndex < section.children.length; lessonIndex++) {
+      const lesson = section.children[lessonIndex];
+      await item(lesson.id).click();
+      if (lesson.type === 'slides') {
+        // Check full examples on desktop/tablet/mobile for unintended page overflow.
+        await next.click();
+        for (const width of [1440, 768, 390]) {
+          await page.setViewportSize({ width, height: 1000 });
+          assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `Overflow: ${lesson.id} at ${width}`);
+        }
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        for (let i = 0; i < 3; i++) await next.click();
+        await complete.click();
+      } else {
+        if (sectionIndex === 0) {
+          for (const q of lesson.questions) await page.locator(`input[name="q-${q.id}"][value="${(q.answer+1)%q.options.length}"]`).check();
+          await page.locator('#lms-quiz button[type="submit"]').click();
+          assert.equal(await guide.isDisabled(), true);
+          const nextDetails = page.locator('details').filter({ has: page.locator(`[data-id="${course.sections[1].children[0].id}"]`) }).first();
+          await nextDetails.locator('summary').first().click();
+          assert.equal(await item(course.sections[1].children[0].id).isDisabled(), true);
+        }
+        for (const q of lesson.questions) await page.locator(`input[name="q-${q.id}"][value="${q.answer}"]`).check();
+        await page.locator('#lms-quiz button[type="submit"]').click();
+        assert.equal(await guide.isEnabled(), true);
+        if (sectionIndex === 0) {
+          const downloadPromise = page.waitForEvent('download');
+          await guide.click();
+          const download = await downloadPromise;
+          const filename = path.join('test-results', download.suggestedFilename());
+          fs.mkdirSync('test-results', { recursive: true });
+          await download.saveAs(filename);
+          const text = fs.readFileSync(filename, 'utf8');
+          assert.ok(text.includes('Remember: types are erased.'));
+          assert.ok(text.includes('## Sources'));
+          assert.ok(text.includes('Compare your solution'));
+        }
+      }
+    }
+  }
+  await item(course.finalQuiz.id).click();
+  for (const q of course.finalQuiz.questions) await page.locator(`input[name="q-${q.id}"][value="${q.answer}"]`).check();
+  await page.locator('#lms-quiz button[type="submit"]').click();
+  await page.reload();
+  await page.locator('[data-lms="view"][data-view="report"]').click();
+  assert.ok((await page.locator('.lms-metrics').innerText()).includes('21/21'));
+
+  assert.equal(await page.locator('#lms-average-grade').innerText(), '100%');
+  assert.equal(await page.locator('tbody tr').count(), 21);
+  assert.equal(await page.locator('.lms-skill-row').count(), 21);
+  assert.equal((await page.locator('thead').innerText()).trim(), 'Quiz name\tStatus\tAttempts\tBest score');
+  const closedSection = page.locator('details[data-lms-section]').first();
+  await closedSection.evaluate(el => el.open = false);
+  await page.reload();
+  assert.equal(await closedSection.getAttribute('open'), null);
+  for (const width of [1440, 768, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `Report overflow at ${width}`);
+  }
+  await page.screenshot({ path: 'test-results/report-mobile.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.screenshot({ path: 'test-results/report-desktop.png', fullPage: true });
+  await page.locator('[data-lms="report-sample"]').click();
+  assert.ok((await page.locator('.lms-report-heading').innerText()).includes('SAMPLE REPORT'));
+  assert.equal(await page.locator('#lms-average-grade').innerText(), '83.3%');
+  assert.equal(await page.locator('.lms-skill-row').count(), 3);
+  await page.locator('#lms-show-unattempted').check();
+  assert.equal(await page.locator('.lms-skill-row').count(), 4);
+  await page.locator('[data-lms-slice]').first().focus();
+  assert.ok((await page.locator('#lms-pie-detail').innerText()).includes('Learned: 2 of 4 skills'));
+  const csvPromise = page.waitForEvent('download');
+  await page.locator('[data-lms="csv"]').click();
+  const csv = await csvPromise;
+  await csv.saveAs('test-results/sample-learning-report.csv');
+  const csvText = fs.readFileSync('test-results/sample-learning-report.csv', 'utf8');
+  assert.ok(csvText.includes('"Quiz name","Skill"'));
+  assert.ok(csvText.includes('"Sample","Sample learner"'));
+
+  // Isolated saved learner grades verify actual averages and no automatic sample data.
+  const reportContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const reportPage = await reportContext.newPage();
+  await reportPage.addInitScript(() => document.addEventListener('DOMContentLoaded', () => {
+    const raw = JSON.parse(document.querySelector('#lms-course-data').textContent);
+    raw.id += '-grade-check';
+    document.querySelector('#lms-course-data').textContent = JSON.stringify(raw);
+    if (localStorage.getItem('design-lab-lms-progress-' + raw.id)) return;
+    const quizzes = LMS.flatten(LMS.validate(raw).sections).filter(n => n.type === 'quiz');
+    const records = {};
+    quizzes.slice(0, 2).forEach((quiz, i) => {
+      let hash = 0;
+      const data = Object.fromEntries(Object.entries(quiz).filter(([key]) => key !== 'skill'));
+      for (const ch of JSON.stringify(data)) hash = (Math.imul(31, hash) + ch.charCodeAt(0)) | 0;
+      records[quiz.id] = { fingerprint: String(hash), completed: true, attempts: [{ score: i ? 80 : 100, at: '2026-10-06T00:00:00Z', passed: true }] };
+    });
+    localStorage.setItem('design-lab-lms-progress-' + raw.id, JSON.stringify({ name: 'Grade check', records }));
+  }));
+  await reportPage.goto(base + '#report');
+  assert.equal(await reportPage.locator('#lms-average-grade').innerText(), '90%');
+  assert.equal(await reportPage.locator('.lms-skill-row').count(), 2);
+  assert.ok((await reportPage.locator('.lms-report-heading').innerText()).includes('YOUR RESULTS'));
+  await reportPage.locator('#lms-show-unattempted').check();
+  assert.equal(await reportPage.locator('.lms-skill-row').count(), 21);
+  await reportPage.reload();
+  assert.equal(await reportPage.locator('#lms-show-unattempted').isChecked(), true);
+  // Keep the isolated report context open until browser shutdown (single-process Chromium).
+
+  // Changed content invalidates stored completion and relocks dependent lessons.
+  // Change the incoming course, rather than editing storage while the old runtime is saving.
+  await page.addInitScript(() => document.addEventListener('DOMContentLoaded', () => {
+    const element = document.querySelector('#lms-course-data');
+    const raw = JSON.parse(element.textContent);
+    raw.sections[0].children[0].slides[0].body += '\nUpdated lesson content.';
+    element.textContent = JSON.stringify(raw);
+  }));
+  await page.evaluate(() => { location.hash = 'learn'; });
+  await page.reload();
+  assert.equal(await item(course.sections[0].children[1].id).isDisabled(), true);
+  const firstDetails = page.locator('details').filter({ has: item(course.sections[0].children[0].id) }).first();
+  if (await firstDetails.getAttribute('open') === null) await firstDetails.locator('summary').first().click();
+  await item(course.sections[0].children[0].id).click();
+  assert.equal(await guide.isDisabled(), true);
+  assert.equal(await complete.isDisabled(), true);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const outlineButton = page.locator('[data-lms="outline"]');
+  const outline = page.locator('#lms-outline');
+  if (!(await outline.isVisible())) await outlineButton.click();
+  assert.equal(await outline.isVisible(), true);
+  assert.equal(await outlineButton.getAttribute('aria-expanded'), 'true');
+  await outlineButton.click();
+  assert.equal(await outline.isVisible(), false);
+  await page.screenshot({ path: 'test-results/mobile.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await next.click();
+  await page.screenshot({ path: 'test-results/desktop.png', fullPage: true });
+  assert.deepEqual(errors, []);
+  await browser.close();
+  console.log('Browser checks passed: all 60 lessons, quiz failure/retake, final assessment, exports, persistence, stale progress, mobile outline, report averages/charts/CSV, learner preferences, outline persistence, and 390/768/1440px overflow.');
+})().catch(error => { console.error(error); process.exit(1); });
