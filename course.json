@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "id": "ts-skills-complete-v1",
-  "title": "TypeScript skills",
+  "title": "TypeScript",
   "description": "A skills-based path through TypeScript foundations, advanced types, runtime boundaries, tooling and library integration. MDN provides JavaScript foundations; the official TypeScript documentation supplies TypeScript-specific material. Original examples and self-assessed exercises accompany each lesson.",
   "sections": [
     {
       "id": "ts-sec-orientation",
       "type": "section",
-      "title": "01 · Start and understand the runtime",
+      "title": "01 Start and understand the runtime",
       "children": [
         {
           "id": "ts-lesson-pipeline",
@@ -112,7 +112,7 @@
         {
           "id": "ts-sec-orientation-quiz",
           "type": "quiz",
-          "title": "Skill check · Start and understand the runtime",
+          "title": "Start and understand the runtime",
           "skill": "Start and understand the runtime",
           "questions": [
             {
@@ -180,7 +180,7 @@
         }
       ],
       "studyGuide": {
-        "title": "01 · Start and understand the runtime · Completion study guide",
+        "title": "01 Start and understand the runtime · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "A compiler check and a runtime validation solve different problems. Passing the compiler does not prove your program is correct.",
@@ -191,7 +191,7 @@
     {
       "id": "ts-sec-javascript",
       "type": "section",
-      "title": "02 · JavaScript foundations for TypeScript",
+      "title": "02 JavaScript foundations for TypeScript",
       "children": [
         {
           "id": "ts-lesson-scope",
@@ -304,7 +304,7 @@
         {
           "id": "ts-sec-javascript-quiz",
           "type": "quiz",
-          "title": "Skill check · JavaScript foundations for TypeScript",
+          "title": "JavaScript foundations for TypeScript",
           "skill": "JavaScript foundations for TypeScript",
           "questions": [
             {
@@ -380,7 +380,7 @@
         }
       ],
       "studyGuide": {
-        "title": "02 · JavaScript foundations for TypeScript · Completion study guide",
+        "title": "02 JavaScript foundations for TypeScript · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Each invocation creates its own lexical environment. const, readonly, and Object.freeze address different kinds of change.",
@@ -391,7 +391,7 @@
     {
       "id": "ts-sec-everyday",
       "type": "section",
-      "title": "03 · Everyday types and inference",
+      "title": "03 Everyday types and inference",
       "children": [
         {
           "id": "ts-lesson-primitives",
@@ -488,7 +488,7 @@
         {
           "id": "ts-sec-everyday-quiz",
           "type": "quiz",
-          "title": "Skill check · Everyday types and inference",
+          "title": "Everyday types and inference",
           "skill": "Everyday types and inference",
           "questions": [
             {
@@ -548,7 +548,7 @@
         }
       ],
       "studyGuide": {
-        "title": "03 · Everyday types and inference · Completion study guide",
+        "title": "03 Everyday types and inference · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "An annotation describes allowed values; it does not coerce them. Hover inferred values before adding redundant annotations.",
@@ -559,7 +559,7 @@
     {
       "id": "ts-sec-objects",
       "type": "section",
-      "title": "04 · Model objects and collections",
+      "title": "04 Model objects and collections",
       "children": [
         {
           "id": "ts-lesson-shapes",
@@ -672,7 +672,7 @@
         {
           "id": "ts-sec-objects-quiz",
           "type": "quiz",
-          "title": "Skill check · Model objects and collections",
+          "title": "Model objects and collections",
           "skill": "Model objects and collections",
           "questions": [
             {
@@ -748,7 +748,7 @@
         }
       ],
       "studyGuide": {
-        "title": "04 · Model objects and collections · Completion study guide",
+        "title": "04 Model objects and collections · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Fresh object literals receive excess-property checks. Do not bypass a misspelled property with an assertion. readonly is shallow and does not prevent mutation through other references.",
@@ -759,7 +759,7 @@
     {
       "id": "ts-sec-narrowing",
       "type": "section",
-      "title": "05 · Narrow uncertain values safely",
+      "title": "05 Narrow uncertain values safely",
       "children": [
         {
           "id": "ts-lesson-guards",
@@ -856,7 +856,7 @@
         {
           "id": "ts-sec-narrowing-quiz",
           "type": "quiz",
-          "title": "Skill check · Narrow uncertain values safely",
+          "title": "Narrow uncertain values safely",
           "skill": "Narrow uncertain values safely",
           "questions": [
             {
@@ -916,7 +916,7 @@
         }
       ],
       "studyGuide": {
-        "title": "05 · Narrow uncertain values safely · Completion study guide",
+        "title": "05 Narrow uncertain values safely · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "typeof returns limited JavaScript categories. Truthiness is useful only when dropping every falsy value is intentional.",
@@ -927,7 +927,7 @@
     {
       "id": "ts-sec-states",
       "type": "section",
-      "title": "06 · Represent states and handle every case",
+      "title": "06 Represent states and handle every case",
       "children": [
         {
           "id": "ts-lesson-discriminants",
@@ -1024,7 +1024,7 @@
         {
           "id": "ts-sec-states-quiz",
           "type": "quiz",
-          "title": "Skill check · Represent states and handle every case",
+          "title": "Represent states and handle every case",
           "skill": "Represent states and handle every case",
           "questions": [
             {
@@ -1084,7 +1084,7 @@
         }
       ],
       "studyGuide": {
-        "title": "06 · Represent states and handle every case · Completion study guide",
+        "title": "06 Represent states and handle every case · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Domain modeling catches impossible field combinations before UI code. Choose a discriminant that describes the state, not incidental implementation details.",
@@ -1095,7 +1095,7 @@
     {
       "id": "ts-sec-functions",
       "type": "section",
-      "title": "07 · Design function contracts",
+      "title": "07 Design function contracts",
       "children": [
         {
           "id": "ts-lesson-callbacks",
@@ -1192,7 +1192,7 @@
         {
           "id": "ts-sec-functions-quiz",
           "type": "quiz",
-          "title": "Skill check · Design function contracts",
+          "title": "Design function contracts",
           "skill": "Design function contracts",
           "questions": [
             {
@@ -1252,7 +1252,7 @@
         }
       ],
       "studyGuide": {
-        "title": "07 · Design function contracts · Completion study guide",
+        "title": "07 Design function contracts · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "A contextual () => void callback may return a value that the caller ignores. A function explicitly declared with : void cannot return an unrelated value.",
@@ -1263,7 +1263,7 @@
     {
       "id": "ts-sec-generics",
       "type": "section",
-      "title": "08 · Build reusable generic APIs",
+      "title": "08 Build reusable generic APIs",
       "children": [
         {
           "id": "ts-lesson-generic-relations",
@@ -1360,7 +1360,7 @@
         {
           "id": "ts-sec-generics-quiz",
           "type": "quiz",
-          "title": "Skill check · Build reusable generic APIs",
+          "title": "Build reusable generic APIs",
           "skill": "Build reusable generic APIs",
           "questions": [
             {
@@ -1420,7 +1420,7 @@
         }
       ],
       "studyGuide": {
-        "title": "08 · Build reusable generic APIs · Completion study guide",
+        "title": "08 Build reusable generic APIs · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Generics preserve information, but do not conjure runtime knowledge of T. Empty collections still need correct missing-value behavior.",
@@ -1431,7 +1431,7 @@
     {
       "id": "ts-sec-operators",
       "type": "section",
-      "title": "09 · Derive types from existing information",
+      "title": "09 Derive types from existing information",
       "children": [
         {
           "id": "ts-lesson-keyof-typeof",
@@ -1536,7 +1536,7 @@
         {
           "id": "ts-sec-operators-quiz",
           "type": "quiz",
-          "title": "Skill check · Derive types from existing information",
+          "title": "Derive types from existing information",
           "skill": "Derive types from existing information",
           "questions": [
             {
@@ -1604,7 +1604,7 @@
         }
       ],
       "studyGuide": {
-        "title": "09 · Derive types from existing information · Completion study guide",
+        "title": "09 Derive types from existing information · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "keyof is not Object.keys(). It works on a static type and emits no list of runtime keys.",
@@ -1615,7 +1615,7 @@
     {
       "id": "ts-sec-transformations",
       "type": "section",
-      "title": "10 · Transform types with intent",
+      "title": "10 Transform types with intent",
       "children": [
         {
           "id": "ts-lesson-mapped",
@@ -1720,7 +1720,7 @@
         {
           "id": "ts-sec-transformations-quiz",
           "type": "quiz",
-          "title": "Skill check · Transform types with intent",
+          "title": "Transform types with intent",
           "skill": "Transform types with intent",
           "questions": [
             {
@@ -1788,7 +1788,7 @@
         }
       ],
       "studyGuide": {
-        "title": "10 · Transform types with intent · Completion study guide",
+        "title": "10 Transform types with intent · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Mapped types transform descriptions, not runtime objects. Code must still implement any generated methods or fields.",
@@ -1799,7 +1799,7 @@
     {
       "id": "ts-sec-utilities",
       "type": "section",
-      "title": "11 · Use the standard utility types",
+      "title": "11 Use the standard utility types",
       "children": [
         {
           "id": "ts-lesson-object-utilities",
@@ -1888,7 +1888,7 @@
         {
           "id": "ts-sec-utilities-quiz",
           "type": "quiz",
-          "title": "Skill check · Use the standard utility types",
+          "title": "Use the standard utility types",
           "skill": "Use the standard utility types",
           "questions": [
             {
@@ -1940,7 +1940,7 @@
         }
       ],
       "studyGuide": {
-        "title": "11 · Use the standard utility types · Completion study guide",
+        "title": "11 Use the standard utility types · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Omit changes the type, not the runtime contents. Explicitly construct public outputs when fields must actually be removed.",
@@ -1951,7 +1951,7 @@
     {
       "id": "ts-sec-classes",
       "type": "section",
-      "title": "12 · Classes, compatibility, and composition",
+      "title": "12 Classes, compatibility, and composition",
       "children": [
         {
           "id": "ts-lesson-class-contracts",
@@ -2064,7 +2064,7 @@
         {
           "id": "ts-sec-classes-quiz",
           "type": "quiz",
-          "title": "Skill check · Classes, compatibility, and composition",
+          "title": "Classes, compatibility, and composition",
           "skill": "Classes, compatibility, and composition",
           "questions": [
             {
@@ -2140,7 +2140,7 @@
         }
       ],
       "studyGuide": {
-        "title": "12 · Classes, compatibility, and composition · Completion study guide",
+        "title": "12 Classes, compatibility, and composition · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "A definite-assignment assertion (!) suppresses an initialization check; it does not initialize the field. Check JavaScript this binding when passing instance methods.",
@@ -2151,7 +2151,7 @@
     {
       "id": "ts-sec-modules",
       "type": "section",
-      "title": "13 · Modules and runtime-aware resolution",
+      "title": "13 Modules and runtime-aware resolution",
       "children": [
         {
           "id": "ts-lesson-module-boundaries",
@@ -2272,7 +2272,7 @@
         {
           "id": "ts-sec-modules-quiz",
           "type": "quiz",
-          "title": "Skill check · Modules and runtime-aware resolution",
+          "title": "Modules and runtime-aware resolution",
           "skill": "Modules and runtime-aware resolution",
           "questions": [
             {
@@ -2356,7 +2356,7 @@
         }
       ],
       "studyGuide": {
-        "title": "13 · Modules and runtime-aware resolution · Completion study guide",
+        "title": "13 Modules and runtime-aware resolution · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Module specifiers must work in the actual host. A path the checker understands is not automatically a path the runtime understands. Multi-file examples are labeled and need separate files.",
@@ -2367,7 +2367,7 @@
     {
       "id": "ts-sec-configuration",
       "type": "section",
-      "title": "14 · Compiler options and scalable projects",
+      "title": "14 Compiler options and scalable projects",
       "children": [
         {
           "id": "ts-lesson-strict-config",
@@ -2488,7 +2488,7 @@
         {
           "id": "ts-sec-configuration-quiz",
           "type": "quiz",
-          "title": "Skill check · Compiler options and scalable projects",
+          "title": "Compiler options and scalable projects",
           "skill": "Compiler options and scalable projects",
           "questions": [
             {
@@ -2572,7 +2572,7 @@
         }
       ],
       "studyGuide": {
-        "title": "14 · Compiler options and scalable projects · Completion study guide",
+        "title": "14 Compiler options and scalable projects · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Passing compilation does not guarantee platform APIs exist. Treat skipLibCheck as a tradeoff, not a way to fix mismatched declarations. Avoid suppressions before understanding the diagnostic.",
@@ -2583,7 +2583,7 @@
     {
       "id": "ts-sec-declarations",
       "type": "section",
-      "title": "15 · Consume and publish declaration files",
+      "title": "15 Consume and publish declaration files",
       "children": [
         {
           "id": "ts-lesson-consume-types",
@@ -2712,7 +2712,7 @@
         {
           "id": "ts-sec-declarations-quiz",
           "type": "quiz",
-          "title": "Skill check · Consume and publish declaration files",
+          "title": "Consume and publish declaration files",
           "skill": "Consume and publish declaration files",
           "questions": [
             {
@@ -2804,7 +2804,7 @@
         }
       ],
       "studyGuide": {
-        "title": "15 · Consume and publish declaration files · Completion study guide",
+        "title": "15 Consume and publish declaration files · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "A declaration mismatch can make incorrect code compile. Validate declarations against actual behavior, including missing values, overloads and callback invocation rules.",
@@ -2815,7 +2815,7 @@
     {
       "id": "ts-sec-migration",
       "type": "section",
-      "title": "16 · Adopt TypeScript in JavaScript projects",
+      "title": "16 Adopt TypeScript in JavaScript projects",
       "children": [
         {
           "id": "ts-lesson-jsdoc",
@@ -2936,7 +2936,7 @@
         {
           "id": "ts-sec-migration-quiz",
           "type": "quiz",
-          "title": "Skill check · Adopt TypeScript in JavaScript projects",
+          "title": "Adopt TypeScript in JavaScript projects",
           "skill": "Adopt TypeScript in JavaScript projects",
           "questions": [
             {
@@ -3020,7 +3020,7 @@
         }
       ],
       "studyGuide": {
-        "title": "16 · Adopt TypeScript in JavaScript projects · Completion study guide",
+        "title": "16 Adopt TypeScript in JavaScript projects · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "JSDoc offers @template, @satisfies, imported types and many other tags. Use the supported-tag reference; not every documentation tag changes checking.",
@@ -3031,7 +3031,7 @@
     {
       "id": "ts-sec-async-dom",
       "type": "section",
-      "title": "17 · Async data and browser applications",
+      "title": "17 Async data and browser applications",
       "children": [
         {
           "id": "ts-lesson-async-validation",
@@ -3144,7 +3144,7 @@
         {
           "id": "ts-sec-async-dom-quiz",
           "type": "quiz",
-          "title": "Skill check · Async data and browser applications",
+          "title": "Async data and browser applications",
           "skill": "Async data and browser applications",
           "questions": [
             {
@@ -3220,7 +3220,7 @@
         }
       ],
       "studyGuide": {
-        "title": "17 · Async data and browser applications · Completion study guide",
+        "title": "17 Async data and browser applications · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "A return annotation Promise<Lesson> does not validate response.json(). Test malformed fields, missing fields, null, HTTP errors and rejected network requests.",
@@ -3231,7 +3231,7 @@
     {
       "id": "ts-sec-specialized",
       "type": "section",
-      "title": "18 · Specialized language and integration features",
+      "title": "18 Specialized language and integration features",
       "children": [
         {
           "id": "ts-lesson-enum-iterables",
@@ -3376,7 +3376,7 @@
         {
           "id": "ts-sec-specialized-quiz",
           "type": "quiz",
-          "title": "Skill check · Specialized language and integration features",
+          "title": "Specialized language and integration features",
           "skill": "Specialized language and integration features",
           "questions": [
             {
@@ -3484,7 +3484,7 @@
         }
       ],
       "studyGuide": {
-        "title": "18 · Specialized language and integration features · Completion study guide",
+        "title": "18 Specialized language and integration features · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "const enum in published declarations has consumer pitfalls. Typed arrays such as Uint8Array are runtime binary-data structures; number[] is a general JavaScript array type.",
@@ -3495,7 +3495,7 @@
     {
       "id": "ts-sec-advanced-runtime",
       "type": "section",
-      "title": "19 · Decorators, disposal, and advanced runtime topics",
+      "title": "19 Decorators, disposal, and advanced runtime topics",
       "children": [
         {
           "id": "ts-lesson-decorator-models",
@@ -3624,7 +3624,7 @@
         {
           "id": "ts-sec-advanced-runtime-quiz",
           "type": "quiz",
-          "title": "Skill check · Decorators, disposal, and advanced runtime topics",
+          "title": "Decorators, disposal, and advanced runtime topics",
           "skill": "Decorators, disposal, and advanced runtime topics",
           "questions": [
             {
@@ -3716,7 +3716,7 @@
         }
       ],
       "studyGuide": {
-        "title": "19 · Decorators, disposal, and advanced runtime topics · Completion study guide",
+        "title": "19 Decorators, disposal, and advanced runtime topics · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Decorators can affect initialization and composition order. Use them when a library or repeated runtime behavior warrants them, and test the resulting behavior.",
@@ -3727,7 +3727,7 @@
     {
       "id": "ts-sec-capstone",
       "type": "section",
-      "title": "20 · Build and verify a typed learning catalog",
+      "title": "20 Build and verify a typed learning catalog",
       "children": [
         {
           "id": "ts-lesson-capstone-model",
@@ -3840,7 +3840,7 @@
         {
           "id": "ts-sec-capstone-quiz",
           "type": "quiz",
-          "title": "Skill check · Build and verify a typed learning catalog",
+          "title": "Build and verify a typed learning catalog",
           "skill": "Build and verify a typed learning catalog",
           "questions": [
             {
@@ -3916,7 +3916,7 @@
         }
       ],
       "studyGuide": {
-        "title": "20 · Build and verify a typed learning catalog · Completion study guide",
+        "title": "20 Build and verify a typed learning catalog · Completion study guide",
         "summary": "Review the 2 skills below, then use the exercises to check what you can do without the examples.",
         "takeaways": [
           "Define acceptance criteria before implementation. Duplicate IDs are a catalog-level rule, not an individual Lesson rule; check them when parsing the collection.",

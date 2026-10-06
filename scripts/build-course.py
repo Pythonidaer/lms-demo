@@ -13,7 +13,7 @@ def source(path, title=None):
     return {'title': title or path.rsplit('/', 1)[-1].replace('.html', '').replace('-', ' ').title(), 'url': base + path}
 
 def M(slug, title, sources):
-    module = {'id': 'ts-sec-' + slug, 'type': 'section', 'title': f'{len(modules)+1:02} · {title}', 'children': [], 'sources': [source(*s) if isinstance(s, tuple) else source(s) for s in sources]}
+    module = {'id': 'ts-sec-' + slug, 'type': 'section', 'title': f'{len(modules)+1:02} {title}', 'children': [], 'sources': [source(*s) if isinstance(s, tuple) else source(s) for s in sources]}
     modules.append(module)
     return module
 
@@ -33,7 +33,8 @@ def L(m, slug, title, goal, explanation, code, practice, solution, takeaway, lan
 
 def Q(m, prompt, correct, wrong1, wrong2, explanation):
     if not m['children'] or m['children'][-1]['type'] != 'quiz':
-        m['children'].append({'id': m['id']+'-quiz', 'type': 'quiz', 'title': 'Skill check · ' + m['title'].split(' · ',1)[1], 'skill': m['title'].split(' · ',1)[1], 'questions': [], 'sources': m['sources']})
+        name = re.sub(r'^\d{2} ', '', m['title'])
+        m['children'].append({'id': m['id']+'-quiz', 'type': 'quiz', 'title': name, 'skill': name, 'questions': [], 'sources': m['sources']})
     quiz = m['children'][-1]
     index = len(quiz['questions'])
     options = [correct, wrong1, wrong2]
@@ -428,7 +429,7 @@ Q(m,'Which test targets real boundary behavior?','Rejecting null, blank IDs, inv
 Q(m,'Does reading every slide establish practical mastery?','No; apply the skills and meet the project rubric','Yes, automatically','Only after refreshing','Completion tracks learning activity. Demonstrated skill requires solving and verifying practical tasks.')
 
 previous=json.loads((ROOT/'course.json').read_text())
-course={'schemaVersion':1,'id':'ts-skills-complete-v1','title':'TypeScript skills',
+course={'schemaVersion':1,'id':'ts-skills-complete-v1','title':'TypeScript',
     'description':'A skills-based path through TypeScript foundations, advanced types, runtime boundaries, tooling and library integration. MDN provides JavaScript foundations; the official TypeScript documentation supplies TypeScript-specific material. Original examples and self-assessed exercises accompany each lesson.',
     'sections':modules,
     'finalQuiz':{'id':'ts-final-skills','type':'quiz','title':'Final assessment · Apply your TypeScript judgment','skill':'Integrated TypeScript judgment','questions':[]},
@@ -468,6 +469,6 @@ for m in modules:
 index=(ROOT/'index.html').read_text()
 embedded=json.dumps(course,ensure_ascii=False,separators=(',',':')).replace('<','\\u003c')
 index=re.sub(r'(<script id="lms-course-data" type="application/json">).*?(</script>)',lambda match:match[1]+embedded+match[2],index,flags=re.S)
-index=re.sub(r'<title>.*?</title>','<title>TypeScript skills course</title>',index)
+index=re.sub(r'<title>.*?</title>','<title>TypeScript</title>',index)
 (ROOT/'index.html').write_text(index)
 print(f'{len(modules)} modules, {sum(len(m["children"])-1 for m in modules)} slide lessons, {sum(len(n.get("slides",[])) for m in modules for n in m["children"])} slides, {sum(len(m["children"][-1]["questions"]) for m in modules)} section questions, {len(course["finalQuiz"]["questions"])} final questions')
