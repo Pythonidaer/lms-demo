@@ -1,0 +1,10 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:02.000
+Type 'string' is not assignable to type 'number'.
+
+00:00:02.000 --> 00:00:04.000
+A string was given where a number is required.
+
+00:00:04.000 --> 00:00:06.000
+Fix the value or the annotation. Do not hide it with any.
